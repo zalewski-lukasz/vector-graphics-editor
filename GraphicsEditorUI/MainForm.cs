@@ -23,6 +23,7 @@ namespace GraphicsEditorUI
         bool IsDrawingCycle { get; set; }
         bool IsDrawingPolygon { get; set; }
         bool IsDrawingCapsule { get; set; }
+        bool IsDrawingRectangle { get; set; }
         List <Point> SelectedVertices { get; set; }
         List <Shapes.Shape> CreatedShapes { get; set; }
         bool IsApplyingAntyAliasing { get; set; }
@@ -38,7 +39,7 @@ namespace GraphicsEditorUI
             ChosenThickness = 1;
             InitializeComponent();
             drawablePictureBox.Image = new Bitmap(drawablePictureBox.Width, drawablePictureBox.Height);
-            IsDrawingCycle = IsDrawingLine = IsDrawingPolygon = IsApplyingAntyAliasing = IsDrawingCapsule = false;
+            IsDrawingCycle = IsDrawingLine = IsDrawingPolygon = IsApplyingAntyAliasing = IsDrawingCapsule = IsDrawingRectangle = false;
             SelectedVertices = new List<Point>();
             CreatedShapes = new List<Shapes.Shape>();
             MouseX = MouseY = 0;
@@ -200,6 +201,8 @@ namespace GraphicsEditorUI
             IsDrawingCycle = false;
             IsDrawingLine = false;
             IsDrawingPolygon = false;
+            IsDrawingCapsule = false;
+            IsDrawingRectangle = false;
         }
 
         private bool CheckProximity(Point first, Point second, double value)
@@ -332,6 +335,28 @@ namespace GraphicsEditorUI
                 if (SelectedVertices.Count == 3)
                 {
                     CreatedShapes.Add(new Shapes.Capsule(SelectedVertices[0], SelectedVertices[1], SelectedVertices[2], ChosenColor));
+                    SelectedVertices.Clear();
+                    RedrawAllShapes();
+                    RerenderControls();
+                    CheckOffAnyDrawing();
+                }
+            }
+
+            if(IsDrawingRectangle)
+            {
+                SelectedVertices.Add(recordedPosition);
+                if (SelectedVertices.Count == 2)
+                {
+                    SelectedVertices.Add(new Point(SelectedVertices[0].X, SelectedVertices[1].Y));
+                    SelectedVertices.Add(new Point(SelectedVertices[1].X, SelectedVertices[0].Y));
+
+                    List<Point> verticesInOrder = new List<Point>();
+                    verticesInOrder.Add(SelectedVertices[0]);
+                    verticesInOrder.Add(SelectedVertices[2]);
+                    verticesInOrder.Add(SelectedVertices[1]);
+                    verticesInOrder.Add(SelectedVertices[3]);
+
+                    CreatedShapes.Add(new Shapes.Rectangle(verticesInOrder,  ChosenColor, ChosenThickness));
                     SelectedVertices.Clear();
                     RedrawAllShapes();
                     RerenderControls();
@@ -682,6 +707,13 @@ namespace GraphicsEditorUI
             RedrawAllShapes();
             RerenderControls();
             CheckOffAnyDrawing();
+        }
+
+        private void btnRectangle_Click(object sender, EventArgs e)
+        {
+            SelectedVertices.Clear();
+            CheckOffAnyDrawing();
+            IsDrawingRectangle = true;
         }
     }
 }
