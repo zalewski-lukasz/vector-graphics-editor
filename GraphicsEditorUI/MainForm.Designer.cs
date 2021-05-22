@@ -42,6 +42,7 @@ namespace GraphicsEditorUI
             this.brnXiaolinWu = new System.Windows.Forms.Button();
             this.btnAntiAliasing = new System.Windows.Forms.Button();
             this.panelDrawShape = new System.Windows.Forms.Panel();
+            this.btnRectangle = new System.Windows.Forms.Button();
             this.btnCapsule = new System.Windows.Forms.Button();
             this.btnDrawPolygon = new System.Windows.Forms.Button();
             this.btnDrawCircle = new System.Windows.Forms.Button();
@@ -57,7 +58,6 @@ namespace GraphicsEditorUI
             this.btnGeneralSettings = new System.Windows.Forms.Button();
             this.panelDrawablePictureBox = new System.Windows.Forms.Panel();
             this.drawablePictureBox = new System.Windows.Forms.PictureBox();
-            this.btnRectangle = new System.Windows.Forms.Button();
             this.sideMenuPanel.SuspendLayout();
             this.panelFileOptions.SuspendLayout();
             this.panelAntiAliasing.SuspendLayout();
@@ -264,6 +264,22 @@ namespace GraphicsEditorUI
             this.panelDrawShape.Size = new System.Drawing.Size(200, 150);
             this.panelDrawShape.TabIndex = 9;
             this.panelDrawShape.Visible = false;
+            // 
+            // btnRectangle
+            // 
+            this.btnRectangle.BackColor = System.Drawing.Color.BurlyWood;
+            this.btnRectangle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnRectangle.FlatAppearance.BorderSize = 0;
+            this.btnRectangle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRectangle.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnRectangle.Location = new System.Drawing.Point(0, 120);
+            this.btnRectangle.Name = "btnRectangle";
+            this.btnRectangle.Size = new System.Drawing.Size(200, 30);
+            this.btnRectangle.TabIndex = 6;
+            this.btnRectangle.Text = "Rectangle";
+            this.btnRectangle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRectangle.UseVisualStyleBackColor = false;
+            this.btnRectangle.Click += new System.EventHandler(this.btnRectangle_Click);
             // 
             // btnCapsule
             // 
@@ -476,21 +492,6 @@ namespace GraphicsEditorUI
             this.drawablePictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.drawablePictureBox_MouseDown);
             this.drawablePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.drawablePictureBox_MouseMove);
             this.drawablePictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.drawablePictureBox_MouseUp);
-            // 
-            // btnRectangle
-            // 
-            this.btnRectangle.BackColor = System.Drawing.Color.BurlyWood;
-            this.btnRectangle.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnRectangle.FlatAppearance.BorderSize = 0;
-            this.btnRectangle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRectangle.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnRectangle.Location = new System.Drawing.Point(0, 120);
-            this.btnRectangle.Name = "btnRectangle";
-            this.btnRectangle.Size = new System.Drawing.Size(200, 30);
-            this.btnRectangle.TabIndex = 6;
-            this.btnRectangle.Text = "Rectangle";
-            this.btnRectangle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRectangle.UseVisualStyleBackColor = false;
             // 
             // MainForm
             // 
