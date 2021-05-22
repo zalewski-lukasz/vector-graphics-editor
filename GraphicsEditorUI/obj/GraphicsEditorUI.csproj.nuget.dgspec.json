@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lukasz\\Desktop\\studia\\semestr6\\CG1\\Project3\\Project\\GraphicsEditorUI\\GraphicsEditorUI\\GraphicsEditorUI.csproj": {}
+    "C:\\Users\\Lukasz\\Desktop\\studia\\semestr6\\CG1\\Project4\\vector-graphics-editor\\GraphicsEditorUI\\GraphicsEditorUI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lukasz\\Desktop\\studia\\semestr6\\CG1\\Project3\\Project\\GraphicsEditorUI\\GraphicsEditorUI\\GraphicsEditorUI.csproj": {
+    "C:\\Users\\Lukasz\\Desktop\\studia\\semestr6\\CG1\\Project4\\vector-graphics-editor\\GraphicsEditorUI\\GraphicsEditorUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lukasz\\Desktop\\studia\\semestr6\\CG1\\Project3\\Project\\GraphicsEditorUI\\GraphicsEditorUI\\GraphicsEditorUI.csproj",
+        "projectUniqueName": "C:\\Users\\Lukasz\\Desktop\\studia\\semestr6\\CG1\\Project4\\vector-graphics-editor\\GraphicsEditorUI\\GraphicsEditorUI.csproj",
         "projectName": "GraphicsEditorUI",
-        "projectPath": "C:\\Users\\Lukasz\\Desktop\\studia\\semestr6\\CG1\\Project3\\Project\\GraphicsEditorUI\\GraphicsEditorUI\\GraphicsEditorUI.csproj",
+        "projectPath": "C:\\Users\\Lukasz\\Desktop\\studia\\semestr6\\CG1\\Project4\\vector-graphics-editor\\GraphicsEditorUI\\GraphicsEditorUI.csproj",
         "packagesPath": "C:\\Users\\Lukasz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lukasz\\Desktop\\studia\\semestr6\\CG1\\Project3\\Project\\GraphicsEditorUI\\GraphicsEditorUI\\obj\\",
+        "outputPath": "C:\\Users\\Lukasz\\Desktop\\studia\\semestr6\\CG1\\Project4\\vector-graphics-editor\\GraphicsEditorUI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"

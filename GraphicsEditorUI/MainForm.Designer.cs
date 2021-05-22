@@ -30,6 +30,7 @@ namespace GraphicsEditorUI
         private void InitializeComponent()
         {
             this.sideMenuPanel = new System.Windows.Forms.Panel();
+            this.btnDeleteAllShapes = new System.Windows.Forms.Button();
             this.panelCreatedShapesList = new System.Windows.Forms.Panel();
             this.btnShapesList = new System.Windows.Forms.Button();
             this.panelFileOptions = new System.Windows.Forms.Panel();
@@ -41,6 +42,7 @@ namespace GraphicsEditorUI
             this.brnXiaolinWu = new System.Windows.Forms.Button();
             this.btnAntiAliasing = new System.Windows.Forms.Button();
             this.panelDrawShape = new System.Windows.Forms.Panel();
+            this.btnRectangle = new System.Windows.Forms.Button();
             this.btnCapsule = new System.Windows.Forms.Button();
             this.btnDrawPolygon = new System.Windows.Forms.Button();
             this.btnDrawCircle = new System.Windows.Forms.Button();
@@ -56,7 +58,6 @@ namespace GraphicsEditorUI
             this.btnGeneralSettings = new System.Windows.Forms.Button();
             this.panelDrawablePictureBox = new System.Windows.Forms.Panel();
             this.drawablePictureBox = new System.Windows.Forms.PictureBox();
-            this.btnDeleteAllShapes = new System.Windows.Forms.Button();
             this.sideMenuPanel.SuspendLayout();
             this.panelFileOptions.SuspendLayout();
             this.panelAntiAliasing.SuspendLayout();
@@ -91,10 +92,26 @@ namespace GraphicsEditorUI
             this.sideMenuPanel.Size = new System.Drawing.Size(200, 861);
             this.sideMenuPanel.TabIndex = 0;
             // 
+            // btnDeleteAllShapes
+            // 
+            this.btnDeleteAllShapes.BackColor = System.Drawing.Color.Tan;
+            this.btnDeleteAllShapes.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnDeleteAllShapes.FlatAppearance.BorderSize = 0;
+            this.btnDeleteAllShapes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeleteAllShapes.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnDeleteAllShapes.Location = new System.Drawing.Point(0, 483);
+            this.btnDeleteAllShapes.Name = "btnDeleteAllShapes";
+            this.btnDeleteAllShapes.Size = new System.Drawing.Size(200, 30);
+            this.btnDeleteAllShapes.TabIndex = 18;
+            this.btnDeleteAllShapes.Text = "Delete All Shapes";
+            this.btnDeleteAllShapes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDeleteAllShapes.UseVisualStyleBackColor = false;
+            this.btnDeleteAllShapes.Click += new System.EventHandler(this.btnDeleteAllShapes_Click);
+            // 
             // panelCreatedShapesList
             // 
             this.panelCreatedShapesList.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelCreatedShapesList.Location = new System.Drawing.Point(0, 453);
+            this.panelCreatedShapesList.Location = new System.Drawing.Point(0, 483);
             this.panelCreatedShapesList.Name = "panelCreatedShapesList";
             this.panelCreatedShapesList.Size = new System.Drawing.Size(200, 0);
             this.panelCreatedShapesList.TabIndex = 17;
@@ -107,7 +124,7 @@ namespace GraphicsEditorUI
             this.btnShapesList.FlatAppearance.BorderSize = 0;
             this.btnShapesList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnShapesList.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnShapesList.Location = new System.Drawing.Point(0, 423);
+            this.btnShapesList.Location = new System.Drawing.Point(0, 453);
             this.btnShapesList.Name = "btnShapesList";
             this.btnShapesList.Size = new System.Drawing.Size(200, 30);
             this.btnShapesList.TabIndex = 16;
@@ -121,7 +138,7 @@ namespace GraphicsEditorUI
             this.panelFileOptions.Controls.Add(this.btnSaveFile);
             this.panelFileOptions.Controls.Add(this.btnOpenFile);
             this.panelFileOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelFileOptions.Location = new System.Drawing.Point(0, 363);
+            this.panelFileOptions.Location = new System.Drawing.Point(0, 393);
             this.panelFileOptions.Name = "panelFileOptions";
             this.panelFileOptions.Size = new System.Drawing.Size(200, 60);
             this.panelFileOptions.TabIndex = 15;
@@ -166,7 +183,7 @@ namespace GraphicsEditorUI
             this.btnFileOptions.FlatAppearance.BorderSize = 0;
             this.btnFileOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFileOptions.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnFileOptions.Location = new System.Drawing.Point(0, 333);
+            this.btnFileOptions.Location = new System.Drawing.Point(0, 363);
             this.btnFileOptions.Name = "btnFileOptions";
             this.btnFileOptions.Size = new System.Drawing.Size(200, 30);
             this.btnFileOptions.TabIndex = 14;
@@ -180,7 +197,7 @@ namespace GraphicsEditorUI
             this.panelAntiAliasing.Controls.Add(this.btnXiaolinWuOff);
             this.panelAntiAliasing.Controls.Add(this.brnXiaolinWu);
             this.panelAntiAliasing.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelAntiAliasing.Location = new System.Drawing.Point(0, 273);
+            this.panelAntiAliasing.Location = new System.Drawing.Point(0, 303);
             this.panelAntiAliasing.Name = "panelAntiAliasing";
             this.panelAntiAliasing.Size = new System.Drawing.Size(200, 60);
             this.panelAntiAliasing.TabIndex = 11;
@@ -225,7 +242,7 @@ namespace GraphicsEditorUI
             this.btnAntiAliasing.FlatAppearance.BorderSize = 0;
             this.btnAntiAliasing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAntiAliasing.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnAntiAliasing.Location = new System.Drawing.Point(0, 243);
+            this.btnAntiAliasing.Location = new System.Drawing.Point(0, 273);
             this.btnAntiAliasing.Name = "btnAntiAliasing";
             this.btnAntiAliasing.Size = new System.Drawing.Size(200, 30);
             this.btnAntiAliasing.TabIndex = 10;
@@ -236,6 +253,7 @@ namespace GraphicsEditorUI
             // 
             // panelDrawShape
             // 
+            this.panelDrawShape.Controls.Add(this.btnRectangle);
             this.panelDrawShape.Controls.Add(this.btnCapsule);
             this.panelDrawShape.Controls.Add(this.btnDrawPolygon);
             this.panelDrawShape.Controls.Add(this.btnDrawCircle);
@@ -243,9 +261,25 @@ namespace GraphicsEditorUI
             this.panelDrawShape.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelDrawShape.Location = new System.Drawing.Point(0, 123);
             this.panelDrawShape.Name = "panelDrawShape";
-            this.panelDrawShape.Size = new System.Drawing.Size(200, 120);
+            this.panelDrawShape.Size = new System.Drawing.Size(200, 150);
             this.panelDrawShape.TabIndex = 9;
             this.panelDrawShape.Visible = false;
+            // 
+            // btnRectangle
+            // 
+            this.btnRectangle.BackColor = System.Drawing.Color.BurlyWood;
+            this.btnRectangle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnRectangle.FlatAppearance.BorderSize = 0;
+            this.btnRectangle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRectangle.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnRectangle.Location = new System.Drawing.Point(0, 120);
+            this.btnRectangle.Name = "btnRectangle";
+            this.btnRectangle.Size = new System.Drawing.Size(200, 30);
+            this.btnRectangle.TabIndex = 6;
+            this.btnRectangle.Text = "Rectangle";
+            this.btnRectangle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRectangle.UseVisualStyleBackColor = false;
+            this.btnRectangle.Click += new System.EventHandler(this.btnRectangle_Click);
             // 
             // btnCapsule
             // 
@@ -459,22 +493,6 @@ namespace GraphicsEditorUI
             this.drawablePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.drawablePictureBox_MouseMove);
             this.drawablePictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.drawablePictureBox_MouseUp);
             // 
-            // btnDeleteAllShapes
-            // 
-            this.btnDeleteAllShapes.BackColor = System.Drawing.Color.Tan;
-            this.btnDeleteAllShapes.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnDeleteAllShapes.FlatAppearance.BorderSize = 0;
-            this.btnDeleteAllShapes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeleteAllShapes.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnDeleteAllShapes.Location = new System.Drawing.Point(0, 453);
-            this.btnDeleteAllShapes.Name = "btnDeleteAllShapes";
-            this.btnDeleteAllShapes.Size = new System.Drawing.Size(200, 30);
-            this.btnDeleteAllShapes.TabIndex = 18;
-            this.btnDeleteAllShapes.Text = "Delete All Shapes";
-            this.btnDeleteAllShapes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDeleteAllShapes.UseVisualStyleBackColor = false;
-            this.btnDeleteAllShapes.Click += new System.EventHandler(this.btnDeleteAllShapes_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -531,6 +549,7 @@ namespace GraphicsEditorUI
         private System.Windows.Forms.Button btnXiaolinWuOff;
         private System.Windows.Forms.Button btnCapsule;
         private System.Windows.Forms.Button btnDeleteAllShapes;
+        private System.Windows.Forms.Button btnRectangle;
     }
 }
 
