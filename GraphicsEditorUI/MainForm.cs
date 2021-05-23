@@ -347,8 +347,8 @@ namespace GraphicsEditorUI
                 SelectedVertices.Add(recordedPosition);
                 if (SelectedVertices.Count == 2)
                 {
-                    SelectedVertices.Add(new Point(SelectedVertices[0].X, SelectedVertices[1].Y));
                     SelectedVertices.Add(new Point(SelectedVertices[1].X, SelectedVertices[0].Y));
+                    SelectedVertices.Add(new Point(SelectedVertices[0].X, SelectedVertices[1].Y));
 
                     List<Point> verticesInOrder = new List<Point>();
                     verticesInOrder.Add(SelectedVertices[0]);
