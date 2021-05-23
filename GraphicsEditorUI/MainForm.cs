@@ -30,6 +30,7 @@ namespace GraphicsEditorUI
         bool IsMovingCircle { get; set; }
         bool IsMovingLine { get; set; }
         bool IsMovingPolygon { get; set; }
+        bool IsMovingRectangle { get; set;}
         int MouseX { get; set; }
         int MouseY { get; set; }
 
@@ -406,7 +407,19 @@ namespace GraphicsEditorUI
                         return;
                     }
                 }
-                if(shape is Shapes.Polygon)
+                if (shape is Shapes.Rectangle)
+                {
+                    Shapes.Rectangle rec = (Shapes.Rectangle)shape;
+                    if (rec.HitTest(e.Location))
+                    {
+                        IsMovingRectangle = true;
+                        rec.IsSelected = true;
+                        MouseX = e.Location.X;
+                        MouseY = e.Location.Y;
+                        return;
+                    }
+                }
+                if (shape is Shapes.Polygon)
                 {
                     Shapes.Polygon plg = (Shapes.Polygon)shape;
                     if (plg.HitTest(e.Location))
@@ -436,6 +449,16 @@ namespace GraphicsEditorUI
             if (IsMovingLine)
             {
                 IsMovingLine = false;
+                SelectedVertices.Clear();
+                RedrawAllShapes();
+                RerenderControls();
+                CheckOffAnyDrawing();
+                return;
+            }
+
+            if (IsMovingRectangle)
+            {
+                IsMovingRectangle = false;
                 SelectedVertices.Clear();
                 RedrawAllShapes();
                 RerenderControls();
@@ -508,6 +531,122 @@ namespace GraphicsEditorUI
                                 MouseX = e.Location.X;
                                 MouseY = e.Location.Y;
                             }
+                        }
+                    }
+                }
+            }
+
+            else if(IsMovingRectangle)
+            {
+                foreach(Shapes.Shape shape in CreatedShapes)
+                {
+                    if(shape is Shapes.Rectangle)
+                    {
+                        Shapes.Rectangle rectangle = (Shapes.Rectangle)shape;
+                        if(rectangle.IsSelected)
+                        {
+                            if (e.Button == MouseButtons.Right)
+                            {
+                                List<Point> points = new List<Point>();
+                                foreach (Point pt in rectangle.Vertices)
+                                {
+                                    points.Add(new Point(pt.X + e.Location.X - MouseX, pt.Y + e.Location.Y - MouseY));
+                                }
+                                rectangle.Vertices = points;
+                                MouseX = e.Location.X;
+                                MouseY = e.Location.Y;
+                            }
+                            else if (e.Button == MouseButtons.Left)
+                            {
+                                bool vertexFlag = false;
+                                List<Point> points = new List<Point>();
+                                foreach (Point pt in rectangle.Vertices)
+                                {
+                                    if (rectangle.HitTheVertex(e.Location, pt))
+                                    {
+                                        vertexFlag = true;
+                                        if (pt == rectangle.Vertices[0])
+                                        {
+
+                                            int x1 = pt.X + e.Location.X - MouseX;
+                                            int x2 = rectangle.Vertices[1].X;
+                                            int y1 = pt.Y + e.Location.Y - MouseY;
+                                            int y2 = rectangle.Vertices[2].Y;
+
+                                            points.Add(new Point(x1, y1));
+                                            points.Add(new Point(x2, y1));
+                                            points.Add(new Point(x2, y2));
+                                            points.Add(new Point(x1, y2));
+                                        }
+                                        else if (pt == rectangle.Vertices[1])
+                                        {
+                                            int x2 = pt.X + e.Location.X - MouseX;
+                                            int x1 = rectangle.Vertices[0].X;
+                                            int y1 = pt.Y + e.Location.Y - MouseY;
+                                            int y2 = rectangle.Vertices[2].Y;
+
+                                            points.Add(new Point(x1, y1));
+                                            points.Add(new Point(x2, y1));
+                                            points.Add(new Point(x2, y2));
+                                            points.Add(new Point(x1, y2));
+                                        }
+                                        else if (pt == rectangle.Vertices[2])
+                                        {
+                                            int x2 = pt.X + e.Location.X - MouseX;
+                                            int x1 = rectangle.Vertices[0].X;
+                                            int y2 = pt.Y + e.Location.Y - MouseY;
+                                            int y1 = rectangle.Vertices[1].Y;
+
+                                            points.Add(new Point(x1, y1));
+                                            points.Add(new Point(x2, y1));
+                                            points.Add(new Point(x2, y2));
+                                            points.Add(new Point(x1, y2));
+                                        }
+                                        else
+                                        {
+                                            int x1 = pt.X + e.Location.X - MouseX;
+                                            int x2 = rectangle.Vertices[1].X;
+                                            int y2 = pt.Y + e.Location.Y - MouseY;
+                                            int y1 = rectangle.Vertices[1].Y;
+
+                                            points.Add(new Point(x1, y1));
+                                            points.Add(new Point(x2, y1));
+                                            points.Add(new Point(x2, y2));
+                                            points.Add(new Point(x1, y2));
+                                        }
+                                        MouseX = e.Location.X;
+                                        MouseY = e.Location.Y;
+                                        rectangle.Vertices = points;
+                                        return;
+                                    }
+                                }
+                                rectangle.Vertices = points;
+                                if (vertexFlag) return;
+                                return;
+                                Point p1;
+                                Point p2;
+                                Point p3 = e.Location;
+                                for (int i = 0; i < rectangle.Vertices.Count - 1; i++)
+                                {
+                                    p1 = rectangle.Vertices[i];
+                                    p2 = rectangle.Vertices[i + 1];
+                                    if (rectangle.HitBetweenVertices(p1, p2, p3))
+                                    {
+                                        rectangle.Vertices[i] = new Point(p1.X + e.Location.X - MouseX, p1.Y + e.Location.Y - MouseY);
+                                        rectangle.Vertices[i + 1] = new Point(p2.X + e.Location.X - MouseX, p2.Y + e.Location.Y - MouseY);
+                                        return;
+                                    }
+                                }
+                                p1 = rectangle.Vertices[rectangle.Vertices.Count - 1];
+                                p2 = rectangle.Vertices[0];
+                                if (rectangle.HitBetweenVertices(p1, p2, p3))
+                                {
+                                    rectangle.Vertices[rectangle.Vertices.Count - 1] = new Point(p1.X + e.Location.X - MouseX, p1.Y + e.Location.Y - MouseY);
+                                    rectangle.Vertices[0] = new Point(p2.X + e.Location.X - MouseX, p2.Y + e.Location.Y - MouseY);
+                                    return;
+                                }
+                            }
+                            return;
                         }
                     }
                 }
