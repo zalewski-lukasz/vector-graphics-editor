@@ -25,5 +25,26 @@ namespace GraphicsEditorUI.Shapes
             }
             return result;
         }
+
+        public override Bitmap Draw(Bitmap image)
+        {
+            Bitmap newBmp = new Bitmap(image);
+
+            newBmp = (new Shapes.Line(Vertices[0], Vertices[1], BrushColor, BrushThickness)).Draw(newBmp);
+            newBmp = (new Shapes.Line(Vertices[2], Vertices[3], BrushColor, BrushThickness)).Draw(newBmp);
+
+            if(Vertices[0].Y < Vertices[2].Y)
+            {
+                newBmp = (new Shapes.Line(Vertices[0], Vertices[3], BrushColor, BrushThickness)).Draw(newBmp);
+                newBmp = (new Shapes.Line(Vertices[1], Vertices[2], BrushColor, BrushThickness)).Draw(newBmp);
+            }
+            else
+            {
+                newBmp = (new Shapes.Line(Vertices[3], Vertices[0], BrushColor, BrushThickness)).Draw(newBmp);
+                newBmp = (new Shapes.Line(Vertices[2], Vertices[1], BrushColor, BrushThickness)).Draw(newBmp);
+            }
+
+            return newBmp;
+        }
     }
 }
