@@ -386,15 +386,23 @@ namespace GraphicsEditorUI
                             checkedPolygon = (Shapes.Polygon)shape;
                             if(checkedPolygon.CanTrim(clippingPolygon))
                             {
-                                List<Point> outPolyPoints = checkedPolygon.TrimmedPoints(clippingPolygon);
-                                Shapes.Polygon newPoly = new Shapes.Polygon(outPolyPoints, checkedPolygon.BrushColor, checkedPolygon.BrushThickness);
-                                checkedPolygon = newPoly;
+                                List<Point> outPolyPoints = null;
+                                Shapes.Line clipBoundary = null;
+                                for (int i = 0; i < clippingPolygon.Vertices.Count - 1; i++)
+                                {
+                                    clipBoundary = new Shapes.Line(clippingPolygon.Vertices[i], clippingPolygon.Vertices[i + 1], Color.Black, 1);
+                                    outPolyPoints = checkedPolygon.TrimmedPoints(clipBoundary);
+                                    checkedPolygon.Vertices = outPolyPoints;
+                                }
+                                clipBoundary = new Shapes.Line(clippingPolygon.Vertices[clippingPolygon.Vertices.Count - 1], clippingPolygon.Vertices[0], Color.Black, 1);
+                                outPolyPoints = checkedPolygon.TrimmedPoints(clipBoundary);
+                                checkedPolygon.Vertices = outPolyPoints;
                             }
                         }
                     }
 
                     SelectedVertices.Clear();
-                    RedrawAllShapes();
+                    //RedrawAllShapes();
                     RerenderControls();
                     CheckOffAnyDrawing();
                     return;
