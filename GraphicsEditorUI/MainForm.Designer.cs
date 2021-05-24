@@ -58,6 +58,7 @@ namespace GraphicsEditorUI
             this.btnGeneralSettings = new System.Windows.Forms.Button();
             this.panelDrawablePictureBox = new System.Windows.Forms.Panel();
             this.drawablePictureBox = new System.Windows.Forms.PictureBox();
+            this.btnClip = new System.Windows.Forms.Button();
             this.sideMenuPanel.SuspendLayout();
             this.panelFileOptions.SuspendLayout();
             this.panelAntiAliasing.SuspendLayout();
@@ -75,6 +76,7 @@ namespace GraphicsEditorUI
             // 
             this.sideMenuPanel.AutoScroll = true;
             this.sideMenuPanel.BackColor = System.Drawing.Color.BurlyWood;
+            this.sideMenuPanel.Controls.Add(this.btnClip);
             this.sideMenuPanel.Controls.Add(this.btnDeleteAllShapes);
             this.sideMenuPanel.Controls.Add(this.panelCreatedShapesList);
             this.sideMenuPanel.Controls.Add(this.btnShapesList);
@@ -493,6 +495,21 @@ namespace GraphicsEditorUI
             this.drawablePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.drawablePictureBox_MouseMove);
             this.drawablePictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.drawablePictureBox_MouseUp);
             // 
+            // btnClip
+            // 
+            this.btnClip.BackColor = System.Drawing.Color.Tan;
+            this.btnClip.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnClip.FlatAppearance.BorderSize = 0;
+            this.btnClip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClip.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnClip.Location = new System.Drawing.Point(0, 513);
+            this.btnClip.Name = "btnClip";
+            this.btnClip.Size = new System.Drawing.Size(200, 30);
+            this.btnClip.TabIndex = 19;
+            this.btnClip.Text = "Clip";
+            this.btnClip.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnClip.UseVisualStyleBackColor = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -550,6 +567,7 @@ namespace GraphicsEditorUI
         private System.Windows.Forms.Button btnCapsule;
         private System.Windows.Forms.Button btnDeleteAllShapes;
         private System.Windows.Forms.Button btnRectangle;
+        private System.Windows.Forms.Button btnClip;
     }
 }
 
