@@ -383,8 +383,13 @@ namespace GraphicsEditorUI
                     {
                         if(shape is Shapes.Polygon)
                         {
-                            
-
+                            checkedPolygon = (Shapes.Polygon)shape;
+                            if(checkedPolygon.CanTrim(clippingPolygon))
+                            {
+                                List<Point> outPolyPoints = checkedPolygon.TrimmedPoints(clippingPolygon);
+                                Shapes.Polygon newPoly = new Shapes.Polygon(outPolyPoints, checkedPolygon.BrushColor, checkedPolygon.BrushThickness);
+                                checkedPolygon = newPoly;
+                            }
                         }
                     }
 

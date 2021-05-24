@@ -108,8 +108,8 @@ namespace GraphicsEditorUI.Shapes
 
         private bool OnSegment(Point p, Point q, Point r)
         {
-            if (q.x <= Math.Max(p.x, r.x) && q.x >= Math.Min(p.x, r.x) &&
-                q.y <= Math.Max(p.y, r.y) && q.y >= Math.Min(p.y, r.y))
+            if (q.X <= Math.Max(p.X, r.X) && q.X >= Math.Min(p.X, r.X) &&
+                q.Y <= Math.Max(p.Y, r.Y) && q.Y >= Math.Min(p.Y, r.Y))
                 return true;
 
             return false;
@@ -166,12 +166,61 @@ namespace GraphicsEditorUI.Shapes
                 {
                     if (DoIntersect(pointsFirst[i], pointsFirst[i + 1], pointsSecond[i], pointsSecond[i + 1]))
                     {
-                        MessageBox.Show("yes");
                         return true;
                     }
                 }
             }
             return false;
+        }
+
+        public Point GetIntersectionPoint(Point p1, Point q1, Point p2, Point q2)
+        {
+            Line line1 = new Line(p1, q1, Color.Black, 1);
+            Line line2 = new Line(p2, q2, Color.Black, 1);
+
+            double a = line1.GetSlope();
+            double c = line1.GetIntercept();
+            double b = line2.GetSlope();
+            double d = line2.GetIntercept();
+
+            int x = (int)((d - c) / (a - b));
+            int y = (int)(a * (d - c) / (a - b) + c);
+
+            return new Point(x, y);
+        }
+
+        public bool IsInside(Point p, Line line)
+        {
+            return ((line.FirstVertex.X - p.X) * (line.SecondVertex.Y - p.Y) - (line.FirstVertex.Y - p.Y) * (line.SecondVertex.X - p.X)) > 0;
+        }
+
+        public List<Point> TrimmedPoints(Line clipBoundary)
+        {
+            List<Point> outPoly = new List<Point>();
+            Point s, p, i;
+            s = Vertices[Vertices.Count - 1];
+            for(int j = 0; j < Vertices.Count; j++)
+            {
+                p = Vertices[j];
+                if (IsInside(p, clipBoundary))
+                {
+                    if (IsInside(s, clipBoundary))
+                        outPoly.Add(p);
+                    else
+                    {
+                        i = GetIntersectionPoint(s, p, clipBoundary.FirstVertex, clipBoundary.SecondVertex);
+                        outPoly.Add(i);
+                        outPoly.Add(p);
+                    }
+                }
+                else if(IsInside(s, clipBoundary))
+                {
+                    i = GetIntersectionPoint(s, p, clipBoundary.FirstVertex, clipBoundary.SecondVertex);
+                    outPoly.Add(i);
+                }
+                s = p;
+            }
+            return outPoly;
         }
     }
 }
