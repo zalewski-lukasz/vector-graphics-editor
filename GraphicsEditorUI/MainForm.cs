@@ -31,6 +31,7 @@ namespace GraphicsEditorUI
         bool IsMovingLine { get; set; }
         bool IsMovingPolygon { get; set; }
         bool IsMovingRectangle { get; set;}
+        bool IsClipping { get; set; }
         int MouseX { get; set; }
         int MouseY { get; set; }
 
@@ -204,6 +205,7 @@ namespace GraphicsEditorUI
             IsDrawingPolygon = false;
             IsDrawingCapsule = false;
             IsDrawingRectangle = false;
+            IsClipping = false;
         }
 
         private bool CheckProximity(Point first, Point second, double value)
@@ -364,7 +366,25 @@ namespace GraphicsEditorUI
                     CheckOffAnyDrawing();
                 }
             }
-            
+
+            if (IsClipping)
+            {
+                SelectedVertices.Add(recordedPosition);
+                if (SelectedVertices.Count < 2)
+                    return;
+                if (CheckProximity(recordedPosition, SelectedVertices[0], 10))
+                {
+                    Shapes.Polygon clippingPolygon = new Shapes.Polygon(SelectedVertices, Color.Black, 1);
+                    SelectedVertices.Clear();
+                    RedrawAllShapes();
+                    RerenderControls();
+                    CheckOffAnyDrawing();
+                    return;
+                }
+                Shapes.Line line = new Shapes.Line(SelectedVertices[SelectedVertices.Count - 2], SelectedVertices[SelectedVertices.Count - 1], ChosenColor, ChosenThickness);
+                drawablePictureBox.Image = (Bitmap)line.Draw((Bitmap)drawablePictureBox.Image);
+            }
+
         }
 
         private void brnXiaolinWu_Click(object sender, EventArgs e)
@@ -857,6 +877,13 @@ namespace GraphicsEditorUI
             SelectedVertices.Clear();
             CheckOffAnyDrawing();
             IsDrawingRectangle = true;
+        }
+
+        private void btnClip_Click(object sender, EventArgs e)
+        {
+            SelectedVertices.Clear();
+            CheckOffAnyDrawing();
+            IsClipping = true;
         }
     }
 }

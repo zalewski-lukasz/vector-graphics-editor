@@ -509,6 +509,7 @@ namespace GraphicsEditorUI
             this.btnClip.Text = "Clip";
             this.btnClip.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnClip.UseVisualStyleBackColor = false;
+            this.btnClip.Click += new System.EventHandler(this.btnClip_Click);
             // 
             // MainForm
             // 
