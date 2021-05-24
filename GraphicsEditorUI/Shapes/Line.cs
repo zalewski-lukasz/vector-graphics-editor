@@ -356,5 +356,15 @@ namespace GraphicsEditorUI.Shapes
         {
             return $"Line {FirstVertex.X} {FirstVertex.Y} {SecondVertex.X} {SecondVertex.Y} {BrushThickness} {BrushColor.R} {BrushColor.G} {BrushColor.B}";
         }
+
+        public double GetSlope()
+        {
+            return (FirstVertex.Y - SecondVertex.Y) / (FirstVertex.X - SecondVertex.X);
+        }
+
+        public double GetIntercept()
+        {
+            return FirstVertex.Y - GetSlope() * FirstVertex.X;
+        }
     }
 }
