@@ -372,9 +372,22 @@ namespace GraphicsEditorUI
                 SelectedVertices.Add(recordedPosition);
                 if (SelectedVertices.Count < 2)
                     return;
+
                 if (CheckProximity(recordedPosition, SelectedVertices[0], 10))
                 {
                     Shapes.Polygon clippingPolygon = new Shapes.Polygon(SelectedVertices, Color.Black, 1);
+                    bool clippingPoly = false;
+                    Shapes.Polygon checkedPolygon = null;
+
+                    foreach (var shape in CreatedShapes)
+                    {
+                        if(shape is Shapes.Polygon)
+                        {
+                            
+
+                        }
+                    }
+
                     SelectedVertices.Clear();
                     RedrawAllShapes();
                     RerenderControls();

@@ -105,5 +105,73 @@ namespace GraphicsEditorUI.Shapes
             }
             return result;
         }
+
+        private bool OnSegment(Point p, Point q, Point r)
+        {
+            if (q.x <= Math.Max(p.x, r.x) && q.x >= Math.Min(p.x, r.x) &&
+                q.y <= Math.Max(p.y, r.y) && q.y >= Math.Min(p.y, r.y))
+                return true;
+
+            return false;
+        }
+
+        private int Orientation(Point p, Point q, Point r)
+        {
+            int val = (q.Y - p.Y) * (r.X - q.X) -
+                    (q.X - p.X) * (r.Y - q.Y);
+
+            if (val == 0) return 0; 
+
+            return (val > 0) ? 1 : 2;
+        }
+
+        private bool DoIntersect(Point p1, Point q1, Point p2, Point q2)
+        {
+            int o1 = Orientation(p1, q1, p2);
+            int o2 = Orientation(p1, q1, q2);
+            int o3 = Orientation(p2, q2, p1);
+            int o4 = Orientation(p2, q2, q1);
+
+            // General case
+            if (o1 != o2 && o3 != o4)
+                return true;
+
+            // Special Cases
+            // p1, q1 and p2 are colinear and p2 lies on segment p1q1
+            if (o1 == 0 && OnSegment(p1, p2, q1)) return true;
+
+            // p1, q1 and q2 are colinear and q2 lies on segment p1q1
+            if (o2 == 0 && OnSegment(p1, q2, q1)) return true;
+
+            // p2, q2 and p1 are colinear and p1 lies on segment p2q2
+            if (o3 == 0 && OnSegment(p2, p1, q2)) return true;
+
+            // p2, q2 and q1 are colinear and q1 lies on segment p2q2
+            if (o4 == 0 && OnSegment(p2, q1, q2)) return true;
+
+            return false; // Doesn't fall in any of the above cases
+        }
+
+        public bool CanTrim(Shapes.Polygon poly)
+        {
+            List<Point> pointsFirst = Vertices;
+            pointsFirst.Add(Vertices[0]);
+
+            List<Point> pointsSecond = poly.Vertices;
+            pointsSecond.Add(poly.Vertices[0]);
+
+            for(int i = 0; i < pointsFirst.Count - 1; i++)
+            {
+                for(int j = 0; j < pointsSecond.Count - 1; j++)
+                {
+                    if (DoIntersect(pointsFirst[i], pointsFirst[i + 1], pointsSecond[i], pointsSecond[i + 1]))
+                    {
+                        MessageBox.Show("yes");
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
