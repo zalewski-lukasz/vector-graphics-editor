@@ -13,6 +13,9 @@ namespace GraphicsEditorUI.Shapes
     public class Polygon : Shape
     {
         public List<Point> Vertices { get; set; }
+        public Color FillColor { get; set; }
+        public Bitmap FillImage { get; set; }
+
 
         public override string GetName()
         {
@@ -21,6 +24,8 @@ namespace GraphicsEditorUI.Shapes
 
         public Polygon(List<Point> points, Color color, int thickness)
         {
+            FillColor = Color.White;
+            FillImage = null;
             BrushThickness = thickness;
             Vertices = new List<Point>();
             foreach(Point vertex in points)
@@ -28,6 +33,26 @@ namespace GraphicsEditorUI.Shapes
                 Vertices.Add(vertex);
             }
             BrushColor = color;
+        }
+
+        public void RemoveImageFilling()
+        {
+            FillImage = null;
+        }
+
+        public void RemoveColorFilling()
+        {
+            FillColor = Color.White;
+        }
+
+        private bool HasNoImageFilling()
+        {
+            return FillImage == null ? true : false;
+        }
+
+        private bool HasNoColorFilling()
+        {
+            return FillColor == Color.White ? true : false;
         }
 
         public Polygon(Color clr, int thickness)
@@ -105,7 +130,7 @@ namespace GraphicsEditorUI.Shapes
             }
             return result;
         }
-
+        
         private bool OnSegment(Point p, Point q, Point r)
         {
             if (q.X <= Math.Max(p.X, r.X) && q.X >= Math.Min(p.X, r.X) &&
@@ -160,7 +185,7 @@ namespace GraphicsEditorUI.Shapes
             List<Point> pointsSecond = poly.Vertices;
             pointsSecond.Add(poly.Vertices[0]);
 
-            for(int i = 0; i < pointsFirst.Count - 1; i++)
+            for (int i = 0; i < pointsFirst.Count - 1; i++)
             {
                 for(int j = 0; j < pointsSecond.Count - 1; j++)
                 {
@@ -188,7 +213,7 @@ namespace GraphicsEditorUI.Shapes
 
             return new Point(x, y);
         }
-
+      
         public bool IsInside(Point p, Line line)
         {
             return ((line.FirstVertex.X - p.X) * (line.SecondVertex.Y - p.Y) - (line.FirstVertex.Y - p.Y) * (line.SecondVertex.X - p.X)) > 0;
@@ -220,7 +245,12 @@ namespace GraphicsEditorUI.Shapes
                 }
                 s = p;
             }
+            Vertices.Reverse();
             return outPoly;
         }
+
+        
+
+
     }
 }

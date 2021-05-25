@@ -75,6 +75,12 @@ namespace GraphicsEditorUI.Shapes
                 TryToPutPixel(xc - y, yc + x, BrushColor, newBmp);
             }
 
+            // small modification - points are not drawn at 4 pixels
+            TryToPutPixel(Center.X - Radius, Center.Y, BrushColor, newBmp);
+            TryToPutPixel(Center.X + Radius, Center.Y, BrushColor, newBmp);
+            TryToPutPixel(Center.X, - Radius + Center.Y, BrushColor, newBmp);
+            TryToPutPixel(Center.X, Radius + Center.Y, BrushColor, newBmp);
+
             return newBmp;
         }
 
