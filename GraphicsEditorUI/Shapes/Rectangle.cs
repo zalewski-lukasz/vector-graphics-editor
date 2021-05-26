@@ -11,6 +11,8 @@ namespace GraphicsEditorUI.Shapes
     {
         public Rectangle(List<Point> points, Color color, int thickness) : base(points, color, thickness) { }
 
+        public Rectangle(Color color, int thickness) : base(color, thickness) { }
+
         public override string GetName()
         {
             return "Rectangle";
