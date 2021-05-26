@@ -125,45 +125,49 @@ namespace GraphicsEditorUI
                     editor.Value = (shape as Shapes.Polygon).BrushThickness;
                 editor.Maximum = 100;
                 editor.Increment = 2;
-                editor.Location = new Point(120, 3);
+                editor.Location = new Point(360, 3);
                 editor.ValueChanged += new EventHandler(ChangeElementsThickness);
                 
-                Button changeClrFill = new Button();
-                changeClrFill.Dock = DockStyle.Left;
-                changeClrFill.Text = "Fill Color";
-                changeClrFill.Width = 60;
-                changeClrFill.Margin = new Padding(3, 3, 3, 3);
-                changeClrFill.TextAlign = ContentAlignment.MiddleLeft;
-                changeClrFill.FlatStyle = FlatStyle.Flat;
-                changeClrFill.FlatAppearance.BorderSize = 0;
-                changeClrFill.Parent = panel;
-                changeClrFill.Click += new EventHandler(DeleteElement);
-                panel.Controls.Add(changeClrFill);
+                if(shape is not Shapes.Rectangle)
+                {
+                    Button changeClrFill = new Button();
+                    changeClrFill.Dock = DockStyle.Left;
+                    changeClrFill.Text = "Fill Color";
+                    changeClrFill.Width = 80;
+                    changeClrFill.Margin = new Padding(3, 3, 3, 3);
+                    changeClrFill.TextAlign = ContentAlignment.MiddleLeft;
+                    changeClrFill.FlatStyle = FlatStyle.Flat;
+                    changeClrFill.FlatAppearance.BorderSize = 0;
+                    changeClrFill.Parent = panel;
+                    changeClrFill.Click += new EventHandler(FillColorEv);
+                    panel.Controls.Add(changeClrFill);
 
-                Button changeImgFill = new Button();
-                changeImgFill.Dock = DockStyle.Left;
-                changeImgFill.Text = "Fill Image";
-                changeImgFill.Width = 60;
-                changeImgFill.Margin = new Padding(3, 3, 3, 3);
-                changeImgFill.TextAlign = ContentAlignment.MiddleLeft;
-                changeImgFill.FlatStyle = FlatStyle.Flat;
-                changeImgFill.FlatAppearance.BorderSize = 0;
-                changeImgFill.Parent = panel;
-                changeImgFill.Click += new EventHandler(DeleteElement);
-                panel.Controls.Add(changeImgFill);
+                    Button changeImgFill = new Button();
+                    changeImgFill.Dock = DockStyle.Left;
+                    changeImgFill.Text = "Fill Image";
+                    changeImgFill.Width = 80;
+                    changeImgFill.Margin = new Padding(3, 3, 3, 3);
+                    changeImgFill.TextAlign = ContentAlignment.MiddleLeft;
+                    changeImgFill.FlatStyle = FlatStyle.Flat;
+                    changeImgFill.FlatAppearance.BorderSize = 0;
+                    changeImgFill.Parent = panel;
+                    changeImgFill.Click += new EventHandler(FillImageEv);
+                    panel.Controls.Add(changeImgFill);
 
-                Button remFill = new Button();
-                remFill.Dock = DockStyle.Left;
-                remFill.Text = "Remove Fill";
-                remFill.Width = 60;
-                remFill.Margin = new Padding(3, 3, 3, 3);
-                remFill.TextAlign = ContentAlignment.MiddleLeft;
-                remFill.FlatStyle = FlatStyle.Flat;
-                remFill.FlatAppearance.BorderSize = 0;
-                remFill.Parent = panel;
-                remFill.Click += new EventHandler(DeleteElement);
-                panel.Controls.Add(remFill);
+                    Button remFill = new Button();
+                    remFill.Dock = DockStyle.Left;
+                    remFill.Text = "Remove Fill";
+                    remFill.Width = 80;
+                    remFill.Margin = new Padding(3, 3, 3, 3);
+                    remFill.TextAlign = ContentAlignment.MiddleLeft;
+                    remFill.FlatStyle = FlatStyle.Flat;
+                    remFill.FlatAppearance.BorderSize = 0;
+                    remFill.Parent = panel;
+                    remFill.Click += new EventHandler(RemoveFillEv);
+                    panel.Controls.Add(remFill);
+                }
 
+               
                 panel.Controls.Add(editor);
             }
 
@@ -190,7 +194,7 @@ namespace GraphicsEditorUI
             img.Height = 20;
             img.BorderStyle = BorderStyle.FixedSingle;
             img.BackColor = shape.BrushColor;
-            img.Location = new Point(160, 5);
+            img.Location = new Point(400, 5);
             img.Margin = new Padding(5, 5, 5, 5);
             img.Click += new EventHandler(ChangeElementsColor);
             panel.Controls.Add(img);
@@ -228,6 +232,83 @@ namespace GraphicsEditorUI
                 if (i.ToString() == btn.Parent.Name)
                 {
                     CreatedShapes.RemoveAt(i);
+                    SelectedVertices.Clear();
+                    RedrawAllShapes();
+                    RerenderControls();
+                    CheckOffAnyDrawing();
+                    return;
+                }
+
+            }
+        }
+
+        private void FillColorEv(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            for (int i = 0; i < panelCreatedShapesList.Controls.Count; i++)
+            {
+                if (i.ToString() == btn.Parent.Name)
+                {
+                    ColorDialog dlg = new ColorDialog();
+                    if(dlg.ShowDialog() == DialogResult.OK)
+                    {
+                        if (CreatedShapes[i] is Shapes.Polygon && CreatedShapes[i] is not Shapes.Rectangle)
+                        {
+                            (CreatedShapes[i] as Shapes.Polygon).FillColor = dlg.Color;
+                            (CreatedShapes[i] as Shapes.Polygon).RemoveImageFilling();
+                        }
+                    }
+                    SelectedVertices.Clear();
+                    RedrawAllShapes();
+                    RerenderControls();
+                    CheckOffAnyDrawing();
+                    return;
+                }
+
+            }
+        }
+
+        private void FillImageEv(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            for (int i = 0; i < panelCreatedShapesList.Controls.Count; i++)
+            {
+                if (i.ToString() == btn.Parent.Name)
+                {
+                    OpenFileDialog fileDialog = new OpenFileDialog();
+                    fileDialog.Filter = "Image files (*.jpg, *.jpeg, *.bmp, *.png) | *.jpg; *.jpeg; *.bmp; *.png";
+                    if (fileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Bitmap ImgFill = new Bitmap(fileDialog.FileName);
+                        if (CreatedShapes[i] is Shapes.Polygon && CreatedShapes[i] is not Shapes.Rectangle)
+                        {
+                            (CreatedShapes[i] as Shapes.Polygon).FillImage = ImgFill;
+                            (CreatedShapes[i] as Shapes.Polygon).ImageFileName = fileDialog.FileName;
+                            (CreatedShapes[i] as Shapes.Polygon).RemoveColorFilling();
+                        }
+                    }
+                    SelectedVertices.Clear();
+                    RedrawAllShapes();
+                    RerenderControls();
+                    CheckOffAnyDrawing();
+                    return;
+                }
+
+            }
+        }
+
+        private void RemoveFillEv(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            for (int i = 0; i < panelCreatedShapesList.Controls.Count; i++)
+            {
+                if (i.ToString() == btn.Parent.Name)
+                {
+                    if (CreatedShapes[i] is Shapes.Polygon && CreatedShapes[i] is not Shapes.Rectangle)
+                    {
+                        (CreatedShapes[i] as Shapes.Polygon).RemoveColorFilling();
+                        (CreatedShapes[i] as Shapes.Polygon).RemoveImageFilling();
+                    }
                     SelectedVertices.Clear();
                     RedrawAllShapes();
                     RerenderControls();
@@ -522,30 +603,17 @@ namespace GraphicsEditorUI
                 if (CheckProximity(recordedPosition, SelectedVertices[0], 10))
                 {
                     Shapes.Polygon clippingPolygon = new Shapes.Polygon(SelectedVertices, Color.Black, 1);
-                    bool clippingPoly = false;
-                    Shapes.Polygon checkedPolygon = null;
 
                     foreach (var shape in CreatedShapes)
                     {
                         if(shape is Shapes.Polygon && shape is not Shapes.Rectangle)
                         {
-                            checkedPolygon = (Shapes.Polygon)shape;
-                            if(checkedPolygon.CanTrim(clippingPolygon))
+                           Shapes.Polygon checkedPolygon = (Shapes.Polygon)shape;
+                           if(checkedPolygon.CanTrim(clippingPolygon))
                             {
-                                List<Point> outPolyPoints = null;
-                                Shapes.Line clipBoundary = null;
-                                for (int i = 0; i < clippingPolygon.Vertices.Count - 1; i++)
-                                {
-                                    clipBoundary = new Shapes.Line(clippingPolygon.Vertices[i], clippingPolygon.Vertices[i + 1], Color.Black, 1);
-                                    outPolyPoints = checkedPolygon.TrimmedPoints(clipBoundary);
-                                    checkedPolygon.Vertices = outPolyPoints;
-                                }
-                                clipBoundary = new Shapes.Line(clippingPolygon.Vertices[clippingPolygon.Vertices.Count - 1], clippingPolygon.Vertices[0], Color.Black, 1);
-                                outPolyPoints = checkedPolygon.TrimmedPoints(clipBoundary);
-                                checkedPolygon.Vertices = outPolyPoints;
-                                foreach (Point pnt in outPolyPoints)
-                                    MessageBox.Show($"Out {pnt.X} {pnt.Y}");
-                            }
+                                checkedPolygon = checkedPolygon.GetClippedPolygon(clippingPolygon.Vertices);
+                            } 
+                            
                         }
                     }
 
@@ -1009,7 +1077,27 @@ namespace GraphicsEditorUI
                                 }
                                 Color clr = Color.FromArgb(int.Parse(words[1]), int.Parse(words[2]), int.Parse(words[3]));
                                 int thickness = int.Parse(words[4]);
+                                Bitmap img;
+                                if (words[5] == "null")
+                                    img = null;
+                                else
+                                    img = new Bitmap(words[5]);
+                                Color fillClr = Color.FromArgb(int.Parse(words[6]), int.Parse(words[7]), int.Parse(words[8]));
                                 plg = new Shapes.Polygon(clr, thickness);
+                                plg.ImageFileName = words[5];
+                                plg.FillImage = img;
+                                plg.FillColor = fillClr;
+                            }
+                            else if (words[0] == "Rectangle")
+                            {
+                                if (plg != null)
+                                {
+                                    CreatedShapes.Add(plg);
+                                    plg = null;
+                                }
+                                Color clr = Color.FromArgb(int.Parse(words[1]), int.Parse(words[2]), int.Parse(words[3]));
+                                int thickness = int.Parse(words[4]);
+                                plg = new Shapes.Rectangle(clr, thickness);
                             }
                             else
                             {
