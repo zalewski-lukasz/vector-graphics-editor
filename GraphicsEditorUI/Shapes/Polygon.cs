@@ -77,7 +77,12 @@ namespace GraphicsEditorUI.Shapes
             {
                 newBmp = (new Shapes.Line(Vertices[i], Vertices[i + 1], BrushColor, BrushThickness)).Draw(newBmp);
             }
-            newBmp = (new Shapes.Line(Vertices[Vertices.Count - 1], Vertices[0], BrushColor, BrushThickness)).Draw(newBmp);
+            try
+            {
+                newBmp = (new Shapes.Line(Vertices[Vertices.Count - 1], Vertices[0], BrushColor, BrushThickness)).Draw(newBmp);
+            }
+            catch
+            { }
 
             newBmp = Fill(newBmp);
 
@@ -169,6 +174,8 @@ namespace GraphicsEditorUI.Shapes
                 {
                     List<AETNode> bucketTable = tmp.Where(x => x.NodeMinY == tempY).ToList();
                     tmp.RemoveAll(x => x.NodeMinY == tempY);
+                    if (EdgeTable == null)
+                        EdgeTable = new Dictionary<int, List<AETNode>>();
                     EdgeTable.Add(tempY, bucketTable.OrderBy(x => x.ValX).ToList());
                 }
                 tempY++;
@@ -176,6 +183,8 @@ namespace GraphicsEditorUI.Shapes
 
             List<Point> pointsFill = new List<Point>();
             int y = TempMinimalY;
+            if (PolygonTable == null)
+                PolygonTable = new List<AETNode>();
             PolygonTable.Clear();
             do
             {
@@ -185,7 +194,9 @@ namespace GraphicsEditorUI.Shapes
                     PolygonTable.AddRange(bucket);
 
                 }
+
                 PolygonTable = PolygonTable.OrderBy(x => x.ValX).ToList();
+
                 for (int i = 0; i < PolygonTable.Count - 1; i += 2)
                 {
                     int x = (int)PolygonTable[i].ValX;
@@ -262,7 +273,6 @@ namespace GraphicsEditorUI.Shapes
                 {
                     if (DoIntersect(pointsFirst[i], pointsFirst[i + 1], pointsSecond[i], pointsSecond[i + 1]))
                     {
-                        MessageBox.Show("ES");
                         return true;
                     }
                 }

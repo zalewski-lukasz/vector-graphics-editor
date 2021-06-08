@@ -113,7 +113,6 @@ namespace GraphicsEditorUI.Shapes
                 }
             }
 
-
             if(dx > dy)
             {
                 ai = (dy - dx) * 2;
@@ -148,7 +147,7 @@ namespace GraphicsEditorUI.Shapes
                     }
                 }
             }
-            else
+            else if(yf < yb)
             {
                 ai = (dx - dy) * 2;
                 bi = dx * 2;
@@ -180,6 +179,29 @@ namespace GraphicsEditorUI.Shapes
                             }
                         }
                     }
+                }
+            }
+            else
+            {
+                float alt_dy = y2 - y1;
+                float alt_dx = x2 - x1;
+                float m = alt_dy / alt_dx;
+                float y = y1;
+                for (int x = x1; x <= x2; ++x)
+                {
+                    for (int i = 0; i < BrushThickness; i++)
+                    {
+                        for (int j = 0; j < BrushThickness; j++)
+                        {
+                            if (brush[i, j] == 1)
+                            {
+                                int tmp_x = i - BrushThickness / 2;
+                                int tmp_y = j - BrushThickness / 2;
+                                TryToPutPixel(x + tmp_x, (int)(GetRound(y) + tmp_y), BrushColor, bmp);
+                            }
+                        }
+                    }
+                    y += m;
                 }
             }
 
