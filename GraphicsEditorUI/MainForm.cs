@@ -609,10 +609,18 @@ namespace GraphicsEditorUI
                         if(shape is Shapes.Polygon && shape is not Shapes.Rectangle)
                         {
                            Shapes.Polygon checkedPolygon = (Shapes.Polygon)shape;
-                           if(checkedPolygon.CanTrim(clippingPolygon))
+                           Shapes.Polygon tmp = checkedPolygon;
+                           try
                             {
-                                checkedPolygon = checkedPolygon.GetClippedPolygon(clippingPolygon.Vertices);
-                            } 
+                                if (checkedPolygon.CanTrim(clippingPolygon))
+                                {
+                                    checkedPolygon = checkedPolygon.GetClippedPolygon(clippingPolygon.Vertices);
+                                }
+                            }
+                            catch
+                            {
+                                checkedPolygon = tmp;
+                            }
                             
                         }
                     }
